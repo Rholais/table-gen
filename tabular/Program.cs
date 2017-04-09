@@ -20,10 +20,16 @@ namespace tabular
 				sr.Read(buffer, 0, 1);
 				switch(buffer[0])
 				{
-					case '\t':
-						sw.Write(" $\t& $ ");
-						break;
-					case '\r':
+                    case '_':
+                        sw.Write("\\_");
+                        break;
+                    case '%':
+                        sw.Write("\\%");
+                        break;
+                    case '\t':
+                        sw.Write(" $\t& $ ");
+                        break;
+                    case '\r':
 						sw.Write(" $\\\\\r");
 						break;
 					case '\n':
