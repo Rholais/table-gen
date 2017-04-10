@@ -27,13 +27,13 @@ namespace tabular
                         sw.Write("\\%");
                         break;
                     case '\t':
-                        sw.Write(" $\t& $ ");
+                        sw.Write("\t& ");
                         break;
                     case '\r':
-						sw.Write(" $\\\\\r");
+						sw.Write("\\\\\r");
 						break;
 					case '\n':
-						sw.Write("\n\t\t$ ");
+						sw.Write("\n\t\t");
 						break;
 					default:
 						sw.Write(buffer[0]);
