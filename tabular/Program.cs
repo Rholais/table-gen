@@ -7,19 +7,23 @@ using System.IO;
 
 namespace tabular
 {
-	class Program
-	{
-		static void Main(string[] args)
-		{
-			StreamReader sr = new StreamReader("table.txt");
-			StreamWriter sw = new StreamWriter("tabular.txt",false);
-			char[] buffer = {'\0'};
-			sw.Write("\\centerline{\r\n\t\\begin{tabular*}{0.72\\textwidth}{cccc}\\toprule\r\n\t\t$ ");
-			while(sr.Peek() >= 0)
-			{
-				sr.Read(buffer, 0, 1);
-				switch(buffer[0])
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Boolean isBold = false;
+            StreamReader sr = new StreamReader("table.txt");
+            StreamWriter sw = new StreamWriter("tabular.txt", false);
+            char[] buffer = { '\0' };
+            sw.Write("\\centerline{\r\n\t\\begin{tabular*}{0.72\\textwidth}{cccc}\\toprule\r\n\t\t$ ");
+            while(sr.Peek() >= 0)
+            {
+                sr.Read(buffer, 0, 1);
+                switch(buffer[0])
                 {
+                    case '*':
+                        isBold = !isBold;
+                        break;
                     case '_':
                         sw.Write("\\_");
                         break;
@@ -27,22 +31,25 @@ namespace tabular
                         sw.Write("\\%");
                         break;
                     case '\t':
-                        sw.Write("\t& ");
+                        if(isBold) { sw.Write("}\t& \\textbf{"); }
+                        else { sw.Write("\t& "); }
                         break;
                     case '\r':
-						sw.Write("\\\\\r");
-						break;
-					case '\n':
-						sw.Write("\n\t\t");
-						break;
-					default:
-						sw.Write(buffer[0]);
-						break;
-				}
-			}
-			sw.Write("\b\b\\bottomrule\n\t\\end{tabular*}\r\n}\r\n");
-			sw.Flush();
+                        if(isBold) { sw.Write("}\\\\\r"); }
+                        else { sw.Write("\\\\\r"); }
+                        break;
+                    case '\n':
+                        if(isBold) { sw.Write("\n\t\t\\textbf{"); }
+                        else { sw.Write("\n\t\t"); }
+                        break;
+                    default:
+                        sw.Write(buffer[0]);
+                        break;
+                }
+            }
+            sw.Write("\b\b\\bottomrule\n\t\\end{tabular*}\r\n}\r\n");
+            sw.Flush();
 
-		}
-	}
+        }
+    }
 }
