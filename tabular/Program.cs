@@ -22,7 +22,13 @@ namespace tabular
                 switch(buffer[0])
                 {
                     case '*':
-                        isBold = !isBold;
+                        if(isBold) {
+                            sw.Write("}");
+                            isBold = false;
+                        } else {
+                            isBold = true;
+                            sw.Write("\\textbf{")
+                        }
                         break;
                     case '_':
                         sw.Write("\\_");
