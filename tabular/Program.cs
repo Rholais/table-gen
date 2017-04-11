@@ -19,7 +19,7 @@ namespace tabular
 			{
 				sr.Read(buffer, 0, 1);
 				switch(buffer[0])
-				{
+                {
                     case '_':
                         sw.Write("\\_");
                         break;
