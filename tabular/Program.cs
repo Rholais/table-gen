@@ -15,7 +15,7 @@ namespace tabular
             StreamReader sr = new StreamReader("table.txt");
             StreamWriter sw = new StreamWriter("tabular.txt", false);
             char[] buffer = { '\0' };
-            sw.Write("\\centerline{\r\n\t\\begin{tabular*}{0.72\\textwidth}{cccc}\\toprule\r\n\t\t$ ");
+            sw.Write("\\centerline{\r\n\t\\begin{tabular*}{0.72\\textwidth}{cccc}\\toprule\r\n\t\t");
             while(sr.Peek() >= 0)
             {
                 sr.Read(buffer, 0, 1);
@@ -27,7 +27,7 @@ namespace tabular
                             isBold = false;
                         } else {
                             isBold = true;
-                            sw.Write("\\textbf{")
+                            sw.Write("\\textbf{");
                         }
                         break;
                     case '_':
