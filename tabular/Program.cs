@@ -12,6 +12,7 @@ namespace tabular
         static void Main(string[] args)
         {
             Boolean isBold = false;
+            Boolean isType = false;
             StreamReader sr = new StreamReader("table.txt");
             StreamWriter sw = new StreamWriter("tabular.txt", false);
             char[] buffer = { '\0' };
@@ -28,6 +29,15 @@ namespace tabular
                         } else {
                             isBold = true;
                             sw.Write("\\textbf{");
+                        }
+                        break;
+                    case '`':
+                        if(isType) {
+                            sw.Write("}");
+                            isType = false;
+                        } else {
+                            isType = true;
+                            sw.Write("\\texttt{");
                         }
                         break;
                     case '_':
@@ -53,7 +63,7 @@ namespace tabular
                         break;
                 }
             }
-            sw.Write("\b\b\\bottomrule\n\t\\end{tabular*}\r\n}\r\n");
+            sw.Write("\\bottomrule\n\t\\end{tabular*}\r\n}\r\n");
             sw.Flush();
 
         }
