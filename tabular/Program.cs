@@ -13,6 +13,7 @@ namespace tabular
         {
             Boolean isBold = false;
             Boolean isType = false;
+            Boolean isSlash = false;
             StreamReader sr = new StreamReader("table.txt");
             StreamWriter sw = new StreamWriter("tabular.txt", false);
             char[] buffer = { '\0' };
@@ -23,7 +24,10 @@ namespace tabular
                 switch(buffer[0])
                 {
                     case '*':
-                        if(isBold) {
+                        if (isSlash) {
+                            sw.Write("*");
+                            isSlash = false;
+                        } else if (isBold) {
                             sw.Write("}");
                             isBold = false;
                         } else {
@@ -46,6 +50,9 @@ namespace tabular
                     case '%':
                         sw.Write("\\%");
                         break;
+                    case '\\':
+                        isSlash = true;
+                        break;
                     case '\t':
                         if(isBold) { sw.Write("}\t& \\textbf{"); }
                         else { sw.Write("\t& "); }
@@ -55,10 +62,15 @@ namespace tabular
                         else { sw.Write("\\\\\r"); }
                         break;
                     case '\n':
-                        if(isBold) { sw.Write("\n\t\t\\textbf{"); }
-                        else { sw.Write("\n\t\t"); }
+                        if(isBold) { sw.Write("\\\\\n\t\t\\textbf{"); }
+                        else { sw.Write("\\\\\n\t\t"); }
                         break;
                     default:
+                        if (isSlash)
+                        {
+                            sw.Write("\\");
+                            isSlash = false;
+                        }
                         sw.Write(buffer[0]);
                         break;
                 }
